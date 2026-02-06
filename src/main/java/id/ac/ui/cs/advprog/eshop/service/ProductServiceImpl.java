@@ -22,6 +22,16 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public Product edit(Product product){
+        Product existingProduct = productRepository.findById(product.getProductId());
+        if (existingProduct != null) {
+            existingProduct.setName(product.getName());
+            existingProduct.setQuantity(product.getQuantity());
+        }
+        return productRepository.save(existingProduct);
+    }
+
+    @Override
     public List<Product> findAll(){
         Iterator<Product> productIterator = productRepository.findAll();
         List<Product> allProduct = new ArrayList<>();
