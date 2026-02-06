@@ -22,14 +22,16 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product edit(Product product){
-        Product existingProduct = productRepository.findById(product.getProductId());
-        if (existingProduct != null) {
-            existingProduct.setName(product.getName());
-            existingProduct.setQuantity(product.getQuantity());
-        }
-        return productRepository.save(existingProduct);
+    public Product edit(Product product) {
+        return productRepository.findById(product.getId())
+            .map(existingProduct -> {
+                existingProduct.setName(product.getName());
+                existingProduct.setQuantity(product.getQuantity());
+                return productRepository.save(existingProduct);
+            })
+            .orElseThrow(() -> new RuntimeException("Product not found"));
     }
+
 
     @Override
     public List<Product> findAll(){
