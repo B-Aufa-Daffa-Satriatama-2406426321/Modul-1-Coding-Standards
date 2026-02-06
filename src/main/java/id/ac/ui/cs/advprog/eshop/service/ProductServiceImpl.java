@@ -32,6 +32,17 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public Product delete(Product product){
+        Product existingProduct = productRepository.findById(product.getProductId())
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        productRepository.delete(existingProduct);
+
+        return existingProduct;
+    }
+
+
+    @Override
     public List<Product> findAll(){
         Iterator<Product> productIterator = productRepository.findAll();
         List<Product> allProduct = new ArrayList<>();
