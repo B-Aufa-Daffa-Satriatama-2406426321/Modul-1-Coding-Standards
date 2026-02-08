@@ -45,7 +45,7 @@ dependencies {
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
 }
 
-tasks.withType<Test>.configureEach {
+tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
 }
 
