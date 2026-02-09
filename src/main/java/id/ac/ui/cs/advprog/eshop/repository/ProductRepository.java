@@ -15,6 +15,22 @@ public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product){
+
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null");
+        }
+
+        String name = product.getProductName();
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Invalid product name");
+        }
+
+        Integer quantity = product.getProductQuantity();
+        if (quantity == null || quantity < 0) {
+            throw new IllegalArgumentException("Quantity must be >= 0");
+        }
+
+
         productData.add(product);
         return product;
     }
