@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Optional;
+
 import java.util.Iterator;
 
 import java.util.UUID;
@@ -73,6 +75,59 @@ public class ProductRepositoryTest {
         savedProduct = productIterator.next();
         assertEquals(uuid2, savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
+    }
+
+    @Test
+    void testEdit(){
+        Product product = new Product();
+        UUID uuid = UUID.randomUUID();
+        product.setProductId(uuid);
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+
+        productRepository.create(product);
+
+        product.setProductName("Sampo Cap Bambang (Edited)");
+        product.setProductQuantity(150);
+        productRepository.save(product);
+
+        Optional<Product> editedProduct = productRepository.findByProductId(uuid);
+        assertTrue(editedProduct.isPresent());
+        assertEquals("Sampo Cap Bambang (Edited)", editedProduct.get().getProductName());
+        assertEquals(150, editedProduct.get().getProductQuantity());
+    }
+
+    @Test
+    void testDelete(){
+        Product product = new Product();
+        UUID uuid = UUID.randomUUID();
+        product.setProductId(uuid);
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+
+        productRepository.create(product);
+
+        productRepository.delete(product);
+
+        Optional<Product> deletedProduct = productRepository.findByProductId(uuid);
+        assertFalse(deletedProduct.isPresent());
+    }
+
+    @Test
+    void testCreateInvalidProduct(){
+        Product product = new Product();
+        product.setProductId(UUID.randomUUID());
+        product.setProductName("");
+        product.setProductQuantity(-10);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            productRepository.create(product);
+        });
+
+        String expectedMessage = "Invalid product name";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
 }
