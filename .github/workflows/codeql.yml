@@ -25,13 +25,13 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build project
-        run: ./gradlew build
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: java
+
+      - name: Build with autobuild
+        uses: github/codeql-action/autobuild@v3
 
       - name: Analyze
         uses: github/codeql-action/analyze@v3
