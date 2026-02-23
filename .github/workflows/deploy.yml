@@ -17,7 +17,10 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
 
       - name: Build Spring Boot Jar
         run: ./gradlew clean bootJar --no-daemon
@@ -27,16 +30,12 @@ jobs:
 
       - name: Install Koyeb CLI
         run: |
-          curl -s https://install.koyeb.com | bash
+          curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | bash
           echo "$HOME/.koyeb/bin" >> $GITHUB_PATH
-          export PATH="$HOME/.koyeb/bin:$PATH"
 
       - name: Deploy to Koyeb
         env:
-          KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
+          KOYEB_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
         run: |
-          koyeb login --api-token $KOYEB_API_TOKEN
-          # Deploy jar hasil build
-          koyeb service update mutual-elk/modul-1-coding-standards --source ./build/libs/*.jar --region singapore
-          # Start service
-          koyeb service start mutual-elk/modul-1-coding-standards
+          koyeb app init modul-1-coding-standards --git github.com/${{ github.repository }} --git-branch main --git-build-command "./gradlew bootJar" --git-run-command "java -jar build/libs/*.jar" --ports 8080:http --routes /:8080 --instance-type free 2>/dev/null || \
+          koyeb service redeploy modul-1-coding-standards/modul-1-coding-standards
