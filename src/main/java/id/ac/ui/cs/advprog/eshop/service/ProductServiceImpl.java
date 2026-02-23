@@ -22,11 +22,11 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product edit(Product product, String newName, int newQuantity) {
+    public Product edit(Product product, String updatedName, int updatedQuantity) {
         return productRepository.findByProductId(product.getProductId())
             .map(existingProduct -> {
-                existingProduct.setProductName(newName);
-                existingProduct.setProductQuantity(newQuantity);
+                existingProduct.setProductName(updatedName);
+                existingProduct.setProductQuantity(updatedQuantity);
                 return productRepository.save(existingProduct);
             })
             .orElseThrow(() -> new RuntimeException("Product not found"));
