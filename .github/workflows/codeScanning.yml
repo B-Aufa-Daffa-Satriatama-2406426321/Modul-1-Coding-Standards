@@ -1,0 +1,28 @@
+name: Code Scanning
+
+on:
+  push:
+    branches:
+      - '**'
+
+permissions:
+  pull-requests: read
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=B-Aufa-Daffa-Satriatama-2406426321_Modul-1-Coding-Standards
+            -Dsonar.organization=b-aufa-daffa-satriatama-2406426321
