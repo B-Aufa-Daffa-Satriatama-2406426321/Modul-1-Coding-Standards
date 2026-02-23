@@ -2,20 +2,36 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
-  security-events: write
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+      contents: read
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build project
+        run: ./gradlew build
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
         with:
           languages: java
-      - uses: github/codeql-action/analyze@v3
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
