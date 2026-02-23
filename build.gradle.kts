@@ -3,7 +3,6 @@ plugins {
 	jacoco
 	id("org.springframework.boot") version "3.2.2"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("org.sonarqube") version "4.4.1.3373"
 }
 
 val seleniumJavaVersion = "4.14.1"
@@ -79,12 +78,4 @@ tasks.register<Test>("functionalTest"){
 	filter {
 		includeTestsMatching("*FunctionalTest")
 	}
-}
-
-sonarqube {
-    properties {
-        property "sonar.projectKey", "B-Aufa-Daffa-Satriatama-2406426321_Modul-1-Coding-Standards"
-        property "sonar.organization", "b-aufa-daffa-satriatama-2406426321"
-        property "sonar.host.url", "https://sonarcloud.io"
-    }
 }
