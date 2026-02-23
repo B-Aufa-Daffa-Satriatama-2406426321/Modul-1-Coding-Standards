@@ -52,6 +52,13 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
 }
 
+sonarqube {
+    properties {
+        property("sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory.get()}/reports/jacoco/test/jacocoTestReport.xml")
+    }
+}
+
 tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
 }
@@ -74,7 +81,12 @@ tasks.test {
 }
 
 tasks.jacocoTestReport {
-	dependsOn(tasks.test)
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
 
 tasks.register<Test>("functionalTest"){
@@ -85,3 +97,5 @@ tasks.register<Test>("functionalTest"){
 		includeTestsMatching("*FunctionalTest")
 	}
 }
+
+
