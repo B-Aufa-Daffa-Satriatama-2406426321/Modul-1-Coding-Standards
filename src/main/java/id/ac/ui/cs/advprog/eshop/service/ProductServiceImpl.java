@@ -12,8 +12,11 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    @Autowired
-    private ProductRepository productRepository;
+    final ProductRepository productRepository;
+
+     public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product create(Product product){
@@ -31,17 +34,6 @@ public class ProductServiceImpl implements ProductService{
             })
             .orElseThrow(() -> new RuntimeException("Product not found"));
     }
-
-
-    // @Override
-    // public Product delete(Product product){
-    //     Product existingProduct = productRepository.findByProductId(product.getProductId())
-    //         .orElseThrow(() -> new RuntimeException("Product not found"));
-
-    //     productRepository.delete(existingProduct);
-
-    //     return existingProduct;
-    // }
 
 
     @Override

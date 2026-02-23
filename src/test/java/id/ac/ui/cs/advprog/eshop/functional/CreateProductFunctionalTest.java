@@ -20,7 +20,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith(SeleniumJupiter.class)
-public class CreateProductFunctionalTest {
+class CreateProductFunctionalTest {
 
     @LocalServerPort
     private int serverPort;
@@ -35,14 +35,7 @@ public class CreateProductFunctionalTest {
         baseUrl = String.format("%s:%d", testBaseUrl, serverPort);
     }
 
-    // void pageTitle_isCorrect(ChromeDriver driver) throws Exception {
-
-    //     driver.get(baseUrl);
-    //     String pageTitle = driver.getTitle();
-    //     assertEquals("ADV Shop", pageTitle);
-    // }
-
-    void testH2_isCorrect(ChromeDriver driver) throws Exception {
+    void testH2_isCorrect(ChromeDriver driver){
 
         driver.get(baseUrl + "/product/list");
         String h2Text = driver.findElement(By.tagName("h2")).getText();

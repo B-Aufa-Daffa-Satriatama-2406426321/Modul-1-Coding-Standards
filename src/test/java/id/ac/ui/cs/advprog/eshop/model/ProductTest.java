@@ -7,12 +7,12 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProductTest {
+class ProductTest {
     Product product;
     UUID uuid = UUID.randomUUID();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         this.product = new Product();
         this.product.setProductId(uuid);
         this.product.setProductName("Sampo Cap Bambang");

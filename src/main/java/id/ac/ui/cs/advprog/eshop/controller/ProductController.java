@@ -13,8 +13,11 @@ import java.util.List;
 // @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    private ProductService service;
+    private final ProductService productService;
+
+     public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/product/create")
     public String createProductPage(Model model){
@@ -25,13 +28,13 @@ public class ProductController {
 
     @PostMapping("/product/create")
     public String createProductPost(@ModelAttribute Product product, Model model){
-        service.create(product);
+        productService.create(product);
         return "redirect:list";
     }
 
     @GetMapping("/product/list")
     public String productListPage(Model model){
-        List<Product> allProducts = service.findAll();
+        List<Product> allProducts = productService.findAll();
         model.addAttribute("products", allProducts);
         return "productList";
     }
