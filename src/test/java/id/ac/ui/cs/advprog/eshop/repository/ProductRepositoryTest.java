@@ -130,4 +130,76 @@ public class ProductRepositoryTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+    @Test
+    void testSaveOrAddProduct(){
+        Product product = new Product();
+        UUID uuid = UUID.randomUUID();
+        product.setProductId(uuid);
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+
+        productRepository.save(product);
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertTrue(productIterator.hasNext());
+        Product savedProduct = productIterator.next();
+        assertEquals(uuid, savedProduct.getProductId());
+    }
+
+    @Test
+    void testCreateError(){
+
+        IllegalArgumentException exception0 = assertThrows(IllegalArgumentException.class, 
+            () -> {
+                    productRepository.create(null);
+                });
+
+        assertEquals("Product cannot be null", exception0.getMessage());
+
+        Product product = new Product();
+
+        
+        
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> {
+                    productRepository.create(product);
+                });
+
+        assertEquals("Invalid product name", exception.getMessage());
+
+
+
+
+        Product product1 = new Product();
+
+        
+
+        product1.setProductQuantity(-1);
+        product1.setProductName("A");
+        product1.setProductName("ABA");
+
+        IllegalArgumentException exception3 = assertThrows(IllegalArgumentException.class, 
+            () -> {
+                    productRepository.create(product1);
+                });
+                
+        assertEquals("Quantity must be >= 0", exception3.getMessage());
+
+
+
+    }
+
+    @Test
+    void testEdit2(){
+        Product product = new Product();
+        UUID uuid = UUID.randomUUID();
+        product.setProductId(uuid);
+        product.setProductQuantity(3);
+        product.setProductName("ABA");
+
+        productRepository.
+    }
+
+    
+
 }

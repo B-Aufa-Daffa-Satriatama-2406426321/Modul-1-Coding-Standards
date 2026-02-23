@@ -26,7 +26,7 @@ public class ProductRepository {
         }
 
         Integer quantity = product.getProductQuantity();
-        if (quantity == null || quantity < 0) {
+        if (quantity < 0) {
             throw new IllegalArgumentException("Quantity must be >= 0");
         }
 
