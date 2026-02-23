@@ -29,3 +29,12 @@ Dengan membuat banyak variasi test case, kita dapat memastikan bahwa setiap kemu
 Ketika code coverage bisa mencapai 100%, itu berarti semua baris kode telah diuji. Namun, ini tidak selalu menjamin bahwa kode bebas dari bug. Bug yang mungkin terjadi bisa saja berasal dari logika bisnis yang salah. 
 
 Kode baru akan mengurangi clean code karena terjadi redundansi (duplikat) dengan kode di CreateProductFunctionalTest.java. Improvement-nya, kita dapat membuat sebuah method di CreateProductFunctionalTest.java yang digunakan untuk test flow menghitung banyaknya item di list produk.
+
+
+
+# Modul 2
+
+## Refleksi 1
+
+Tautan Koyeb: https://mutual-elk-aufasatriatama-c1bddbb6.koyeb.app/
+
