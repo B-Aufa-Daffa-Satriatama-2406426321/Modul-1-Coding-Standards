@@ -25,21 +25,18 @@ jobs:
       - name: Run tests
         run: ./gradlew test --no-daemon
 
-
       - name: Install Koyeb CLI
         run: |
           curl -s https://install.koyeb.com | bash
           echo "$HOME/.koyeb/bin" >> $GITHUB_PATH
-
+          export PATH="$HOME/.koyeb/bin:$PATH"
 
       - name: Deploy to Koyeb
         env:
           KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
         run: |
           koyeb login --api-token $KOYEB_API_TOKEN
-          # Stop service dulu (opsional tapi lebih aman)
-          koyeb service stop my-springboot-app || true
           # Deploy jar hasil build
-          koyeb service update my-springboot-app --source ./build/libs/*.jar --region paris
+          koyeb service update mutual-elk/modul-1-coding-standards --source ./build/libs/*.jar --region singapore
           # Start service
           koyeb service start mutual-elk/modul-1-coding-standards
