@@ -27,6 +27,9 @@ jobs:
       - name: Grant execute permission
         run: chmod +x gradlew
 
+      - name: Build project
+        run: ./gradlew build
+
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@v2
         env:
