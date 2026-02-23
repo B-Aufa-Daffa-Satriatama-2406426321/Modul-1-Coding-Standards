@@ -38,7 +38,6 @@ on:
 permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis 
   contents: read
-  security-events: write
 
 jobs:
   Analysis:
