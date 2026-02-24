@@ -40,3 +40,43 @@ Kode baru akan mengurangi clean code karena terjadi redundansi (duplikat) dengan
 
 Tautan Koyeb: https://mutual-elk-aufasatriatama-c1bddbb6.koyeb.app/
 
+## 1. Code quality issue yang diperbaiki
+
+- Token-Permissions
+
+    Sebelumnya, workflow memiliki akses token dengan izin penuh, yang dapat menimbulkan risiko keamanan jika token tersebut disalahgunakan. Dengan membatasi izin token hanya untuk membaca konten repository, kita dapat mengurangi risiko tersebut.
+
+    Menambahkan `permissions:
+  contents: read` pada workflow untuk membatasi akses token hanya untuk membaca konten repository.
+
+- Dependency-Update-Tool
+
+    Ini terjadi karena sebelumnya tidak ada dependabot.yml yang mengatur pembaruan otomatis untuk dependensi. Dengan menambahkan dependabot.yml, kita dapat memastikan bahwa dependensi selalu diperbarui ke versi terbaru yang aman.
+
+    Solusi:
+        Menambahkan file dependabot.yml dengan konfigurasi untuk memantau pembaruan dependensi secara otomatis.
+
+- Branch-Protection
+
+    Terjadi karena sebelumnya tidak ada aturan perlindungan branch yang diterapkan pada branch utama. 
+
+    Solusi:
+        Menambahkan aturan perlindungan branch pada branch utama untuk mencegah perubahan langsung tanpa review. (pakai pull request)
+
+
+## 2
+
+Syarat CI CD yang sudah dipenuhi:
+
+- Trigger workflow secara otomatis pada setiap push:
+    Ya. Ini karena setiap workflow di project ini akan jalan otomatis setiap kali ada push ke repository.
+
+- Build dan test dijalankan otomatis:
+    Ya. workflow di project ini sudah mengandung langkah untuk build dan test project secara otomatis. (Menggunakan sonarcloud)
+
+- Deployment otomatis:
+    Ya. workflow di project ini sudah mengandung langkah untuk melakukan deployment otomatis ke Koyeb setelah build dan test berhasil.
+
+Dengan demikian, syarat-syarat CI/CD sudah dipenuhi dalam project ini.
+
+
