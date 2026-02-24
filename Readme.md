@@ -35,6 +35,7 @@ Kode baru akan mengurangi clean code karena terjadi redundansi (duplikat) dengan
 
 
 
+
 # Modul 2
 
 ## Refleksi 1
