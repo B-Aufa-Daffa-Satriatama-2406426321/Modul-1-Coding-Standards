@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -41,5 +42,30 @@ public class ProductServiceImpl implements ProductService{
         List<Product> allProduct = new ArrayList<>();
         productIterator.forEachRemaining(allProduct::add);
         return allProduct;
+    }
+
+    @Override 
+    public Product findByProductId(String productId) {
+        return productRepository.findByProductId(UUID.fromString(productId))
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    @Override
+    public void update(String productId, Product updatedProduct) {
+        productRepository.findByProductId(UUID.fromString(productId))
+            .map(existingProduct -> {
+                existingProduct.setProductName(updatedProduct.getProductName());
+                existingProduct.setProductQuantity(updatedProduct.getProductQuantity());
+                return productRepository.save(existingProduct);
+            })
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    @Override
+    public void deleteProductById(String productId) {
+        productRepository.findByProductId(UUID.fromString(productId))
+            .ifPresentOrElse(productRepository::delete, () -> {
+                throw new RuntimeException("Product not found");
+            });
     }
 }
