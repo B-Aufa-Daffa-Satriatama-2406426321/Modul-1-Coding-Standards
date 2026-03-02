@@ -82,3 +82,38 @@ Syarat CI CD yang sudah dipenuhi:
 Dengan demikian, syarat-syarat CI/CD sudah dipenuhi dalam project ini.
 
 
+# Modul 3
+
+## Principles that being applied
+
+1. Single Responsibility Principle (SRP)
+
+Memindahkan CarController dari yang sebelumnya di file ProductController.java ke filenya tersendiri (CarController.java). Ini karena CarController memiliki tanggung jawab yang berbeda dengan ProductController, sehingga lebih baik dipisahkan untuk menjaga kode tetap bersih dan mudah di-maintain.
+
+2. Open-Closed Principle (OCP) 
+
+Yes, OCP sudah terimplementasikan di branch before-solid. OCP ini merupakan prinsip yang membuat entitas dapat dengan mudah di extend tanpa harus mengubah kode yang sudah ada. 
+
+3. Liskov Substitution Principle (LSP)
+
+Memisahkan controller untuk car dan product. Kemudian, membuat interface ItemController.java. CarController dipisah dari ProductController karena CarController memiliki tanggung jawab yang berbeda dengan ProductController.
+
+4. Interface Segregation Principle (ISP)
+
+Memecah interdace ItemController.java menjadi beberapa interface yang lebih spesifik, seperti ReadableController.java, CreatableController.java, dan EditableController.java. Ini karena tidak semua controller membutuhkan semua metode yang ada di ItemController, sehingga lebih baik memisahkan interface untuk menjaga kode tetap bersih dan mudah di-maintain.
+
+5. Dependency Inversion Principle (DIP)
+
+Sebelumnya, carService depends dari class concrete CarServiceImpl (di CarController.java). Setelah menerapkan DIP, carService sekarang bergantung pada interface CarService yang lebih abstrak.
+
+## Manfaat menerapkan prinsip SOLID
+
+Dengan menerapkan prinsip solid, kita dapat membuat kode yang lebih modular, mudah di-maintain, dan scalable. Kode yang mengikuti prinsip solid menjadi lebih mudah untuk di-test. 
+
+Contohnya, dengan memisahkan controller untuk car dan product, kita dapat dengan mudah menambahkan fitur baru untuk car tanpa harus mengubah kode yang sudah ada di ProductController. Dengan memecah interface menjadi beberapa interface yang lebih spesifik, kita dapat dengan mudah menambahkan fitur baru untuk car tanpa harus mengubah kode yang sudah ada di ProductController. Dengan menerapkan DIP, kita dapat dengan mudah mengganti implementasi CarService tanpa harus mengubah kode yang sudah ada di CarController.
+
+## Kekurangan tidak menggunakan prinsip SOLID
+
+Tanpa menerapkan prinsip SOLID, kode dapat menjadi lebih sulit untuk di-maintain dan diubah. 
+
+Misalnya, jika semua controller digabungkan menjadi satu, maka menambahkan fitur baru untuk salah satu entitas dapat mempengaruhi entitas lainnya. Selain itu, jika interface tidak dipecah menjadi lebih spesifik, maka implementasi yang tidak relevan dapat ditambahkan ke controller yang dapat menyebabkan kebingungan dan kesalahan. kemudian, jika kita tidak meng-apply DIP, kode dapat menjadi lebih terikat pada implementasi konkret, yang dapat membuat kita kesulitan dalam pengujian dan penggantian implementasi di masa depan.
