@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
@@ -63,7 +65,7 @@ class OrderTest {
     void testCreateOrderSuccessStatus(){
         UUID uuid4 = UUID.randomUUID();
         Long time2 = System.currentTimeMillis();
-        Order order = new Order(uuid4, this.products, time2, "Safira Sudrajat", "SUCCESS");
+        Order order = new Order(uuid4, this.products, time2, "Safira Sudrajat", OrderStatus.SUCCESS.getValue());
 
         assertEquals("SUCCESS", order.getStatus());
     }
