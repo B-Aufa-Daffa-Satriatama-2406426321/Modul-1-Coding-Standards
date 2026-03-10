@@ -1,15 +1,17 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class Order {
-    private String id;
+    private UUID id;
     private List<Product> products;
-    private Long orderTime;
+    private long orderTime;
     private String author;
     private String status;
 
@@ -17,7 +19,7 @@ public class Order {
             "WAITING_PAYMENT", "FAILED", "CANCELLED", "SUCCESS"
     );
 
-    public Order(String id, List<Product> products, Long orderTime, String author) {
+    public Order(UUID id, List<Product> products, long orderTime, String author) {
         if (products == null || products.isEmpty()) {
             throw new IllegalArgumentException("Products cannot be null or empty");
         }
@@ -29,7 +31,7 @@ public class Order {
         this.status = "WAITING_PAYMENT"; // Default status
     }
 
-    public Order(String id, List<Product> products, Long orderTime, String author, String status) {
+    public Order(UUID id, List<Product> products, long orderTime, String author, String status) {
         if (products == null || products.isEmpty()) {
             throw new IllegalArgumentException("Products cannot be null or empty");
         }
@@ -39,18 +41,17 @@ public class Order {
         this.orderTime = orderTime;
         this.author = author;
 
-        // Validate status, use default if invalid
-        if (VALID_STATUSES.contains(status)) {
-            this.status = status;
-        } else {
-            this.status = "WAITING_PAYMENT";
+        if (!VALID_STATUSES.contains(status)) {
+            throw new IllegalArgumentException("Invalid status");
         }
+        this.status = status;
     }
 
     public void setStatus(String status) {
-        if (VALID_STATUSES.contains(status)) {
-            this.status = status;
+        if (!VALID_STATUSES.contains(status)) {
+            throw new IllegalArgumentException("Invalid status");
         }
-        // If invalid status, keep previous status (reject the change)
+        this.status = status;
     }
+
 }

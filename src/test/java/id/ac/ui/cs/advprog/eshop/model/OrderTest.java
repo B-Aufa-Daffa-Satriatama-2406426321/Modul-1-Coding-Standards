@@ -36,7 +36,7 @@ class OrderTest {
         this.products.clear();
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Order order = new Order("order-123", this.products, System.currentTimeMillis(), "John Doe");
+            Order order = new Order(UUID.randomUUID(), this.products, System.currentTimeMillis(), "John Doe");
         });
     }
 
@@ -49,7 +49,7 @@ class OrderTest {
         assertSame(this.products, order.getProducts());
         assertEquals(2, order.getProducts().size());
         assertEquals("Sampo Cap Bambang", order.getProducts().get(0).getProductName());
-        assertEquals("Sampo Cap Usep", order.getProducts().get(1).getProductName());
+        assertEquals("Sabun Cap Usep", order.getProducts().get(1).getProductName());
 
         assertEquals(uuid3, order.getId());
         assertEquals(time, order.getOrderTime());
