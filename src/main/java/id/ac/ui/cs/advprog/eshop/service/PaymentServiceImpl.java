@@ -1,9 +1,10 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    @Autowired
     public PaymentServiceImpl(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
@@ -30,15 +30,16 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment setStatus(Payment payment, String status) {
         payment.setStatus(status);
-
-        //update order's status
-        if ("SUCCESS".equals(status)) {
-            payment.getOrder().setStatus("SUCCESS");
-        } else if ("REJECTED".equals(status)) {
-            payment.getOrder().setStatus("FAILED");
-        }
-
+        updateOrderStatus(payment, status);
         return paymentRepository.save(payment);
+    }
+
+    private void updateOrderStatus(Payment payment, String status) {
+        if (PaymentStatus.SUCCESS.getValue().equals(status)) {
+            payment.getOrder().setStatus(OrderStatus.SUCCESS.getValue());
+        } else if (PaymentStatus.REJECTED.getValue().equals(status)) {
+            payment.getOrder().setStatus(OrderStatus.FAILED.getValue());
+        }
     }
 
     @Override

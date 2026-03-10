@@ -1,6 +1,11 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethodType;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
+import id.ac.ui.cs.advprog.eshop.service.payment.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.service.payment.PaymentMethodFactory;
 import lombok.Getter;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,77 +19,27 @@ public class Payment {
 
     public Payment(UUID id, String method, Map<String, String> paymentData, Order order) {
         this.id = id;
-        this.method = method;
         this.paymentData = paymentData;
         this.order = order;
-        this.status = validatePayment() ? "SUCCESS" : "REJECTED";
+
+        if (!PaymentMethodType.contains(method)) {
+            throw new IllegalArgumentException("Invalid payment method: " + method);
+        }
+        this.method = method;
+
+        PaymentMethod validator = PaymentMethodFactory.getPaymentMethod(method);
+        this.status = validator.validate(paymentData)
+                ? PaymentStatus.SUCCESS.getValue()
+                : PaymentStatus.REJECTED.getValue();
     }
 
     public Payment(UUID id, String method, Map<String, String> paymentData) {
-        this.id = id;
-        this.method = method;
-        this.paymentData = paymentData;
-        this.order = null;
-        this.status = validatePayment() ? "SUCCESS" : "REJECTED";
+        this(id, method, paymentData, null);
     }
 
     public void setStatus(String status) {
-        this.status = status;
-    }
-
-    private boolean validatePayment() {
-        if ("VOUCHER_CODE".equals(method)) {
-            return validateVoucherCode();
-        } else if ("CASH_ON_DELIVERY".equals(method)) {
-            return validateCashOnDelivery();
+        if (PaymentStatus.contains(status)) {
+            this.status = status;
         }
-        return false;
-    }
-
-    private boolean validateVoucherCode() {
-        if (paymentData == null) {
-            return false;
-        }
-
-        String voucherCode = paymentData.get("voucherCode");
-        if (voucherCode == null) {
-            return false;
-        }
-
-        if (voucherCode.length() != 16) {
-            return false;
-        }
-
-        if (!voucherCode.startsWith("ESHOP")) {
-            return false;
-        }
-
-        int numericCount = 0;
-        for (char c : voucherCode.toCharArray()) {
-            if (Character.isDigit(c)) {
-                numericCount++;
-            }
-        }
-
-        return numericCount == 8;
-    }
-
-    private boolean validateCashOnDelivery() {
-        if (paymentData == null) {
-            return false;
-        }
-
-        String address = paymentData.get("address");
-        String deliveryFee = paymentData.get("deliveryFee");
-
-        if (address == null || address.isEmpty()) {
-            return false;
-        }
-
-        if (deliveryFee == null || deliveryFee.isEmpty()) {
-            return false;
-        }
-
-        return true;
     }
 }
