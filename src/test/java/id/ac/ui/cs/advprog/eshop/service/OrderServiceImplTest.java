@@ -3,6 +3,7 @@ package id.ac.ui.cs.advprog.eshop.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -99,10 +103,11 @@ public class OrderServiceImplTest {
 
     @Test
     void testUpdateStatusInvalidOrderId(){
-        doReturn(null).when(orderRepository).findById("zczc");
+        UUID randomId = UUID.randomUUID();
+        doReturn(null).when(orderRepository).findById(randomId);
 
         assertThrows(NoSuchElementException.class, 
-            () -> orderService.updateStatus("zczc", OrderStatus.SUCCESS.getValue())
+            () -> orderService.updateStatus(randomId, OrderStatus.SUCCESS.getValue())
         );
 
         verify(orderRepository, times(0)).save(any(Order.class));
@@ -119,8 +124,9 @@ public class OrderServiceImplTest {
 
     @Test
     void testFindByIdIfIdNotFound(){
-        doReturn(null).when(orderRepository).findById("zczc");
-        assertNull(orderService.findById("zczc"));
+        UUID randomId = UUID.randomUUID();
+        doReturn(null).when(orderRepository).findById(randomId);
+        assertNull(orderService.findById(randomId));
 
     }
 

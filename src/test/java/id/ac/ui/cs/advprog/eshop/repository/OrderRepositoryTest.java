@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Product;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderRepositoryTest {
     OrderRepository orderRepository;
@@ -77,7 +82,8 @@ public class OrderRepositoryTest {
             orderRepository.save(order);
         }
 
-        Order findResult = orderRepository.findById(orders.get(1).getId());
+        Order order = orders.get(1);
+        Order findResult = orderRepository.findById(order.getId());
         assertEquals(order.getId(), findResult.getId());
         assertEquals(order.getOrderTime(), findResult.getOrderTime());
         assertEquals(order.getAuthor(), findResult.getAuthor());
@@ -90,7 +96,8 @@ public class OrderRepositoryTest {
             orderRepository.save(order);
         }
 
-        Order findResult = orderRepository.findById("zczc");
+        UUID randomId = UUID.randomUUID();
+        Order findResult = orderRepository.findById(randomId);
         assertNull(findResult);
     }
 
