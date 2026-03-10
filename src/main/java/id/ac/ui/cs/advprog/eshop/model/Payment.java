@@ -51,17 +51,14 @@ public class Payment {
             return false;
         }
 
-        // Must be 16 characters
         if (voucherCode.length() != 16) {
             return false;
         }
 
-        // Must start with "ESHOP"
         if (!voucherCode.startsWith("ESHOP")) {
             return false;
         }
 
-        // Must contain 8 numerical characters
         int numericCount = 0;
         for (char c : voucherCode.toCharArray()) {
             if (Character.isDigit(c)) {
@@ -80,12 +77,10 @@ public class Payment {
         String address = paymentData.get("address");
         String deliveryFee = paymentData.get("deliveryFee");
 
-        // Address must not be null or empty
         if (address == null || address.isEmpty()) {
             return false;
         }
 
-        // Delivery fee must not be null or empty
         if (deliveryFee == null || deliveryFee.isEmpty()) {
             return false;
         }
