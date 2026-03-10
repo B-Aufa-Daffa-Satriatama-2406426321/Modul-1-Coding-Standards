@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+
 @Getter
 public class Order {
     private UUID id;
@@ -15,43 +17,31 @@ public class Order {
     private String author;
     private String status;
 
-    private static final List<String> VALID_STATUSES = Arrays.asList(
-            "WAITING_PAYMENT", "FAILED", "CANCELLED", "SUCCESS"
-    );
-
     public Order(UUID id, List<Product> products, long orderTime, String author) {
-        if (products == null || products.isEmpty()) {
-            throw new IllegalArgumentException("Products cannot be null or empty");
-        }
-
+        
         this.id = id;
-        this.products = products;
         this.orderTime = orderTime;
         this.author = author;
-        this.status = "WAITING_PAYMENT"; // Default status
+        this.status = OrderStatus.WAITING_PAYMENT.getValue();
+
+        if (products.isEmpty()){
+            throw new IllegalArgumentException();
+        }else{
+            this.products = products;
+        }
     }
 
     public Order(UUID id, List<Product> products, long orderTime, String author, String status) {
-        if (products == null || products.isEmpty()) {
-            throw new IllegalArgumentException("Products cannot be null or empty");
-        }
-
-        this.id = id;
-        this.products = products;
-        this.orderTime = orderTime;
-        this.author = author;
-
-        if (!VALID_STATUSES.contains(status)) {
-            throw new IllegalArgumentException("Invalid status");
-        }
-        this.status = status;
+        this(id, products, orderTime, author);
+        this.setStatus(status);
     }
 
     public void setStatus(String status) {
-        if (!VALID_STATUSES.contains(status)) {
-            throw new IllegalArgumentException("Invalid status");
+        if (OrderStatus.contains(status)){
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException();
         }
-        this.status = status;
     }
 
 }
