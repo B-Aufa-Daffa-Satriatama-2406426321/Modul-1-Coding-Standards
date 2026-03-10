@@ -117,3 +117,40 @@ Contohnya, dengan memisahkan controller untuk car dan product, kita dapat dengan
 Tanpa menerapkan prinsip SOLID, kode dapat menjadi lebih sulit untuk di-maintain dan diubah. 
 
 Misalnya, jika semua controller digabungkan menjadi satu, maka menambahkan fitur baru untuk salah satu entitas dapat mempengaruhi entitas lainnya. Selain itu, jika interface tidak dipecah menjadi lebih spesifik, maka implementasi yang tidak relevan dapat ditambahkan ke controller yang dapat menyebabkan kebingungan dan kesalahan. kemudian, jika kita tidak meng-apply DIP, kode dapat menjadi lebih terikat pada implementasi konkret, yang dapat membuat kita kesulitan dalam pengujian dan penggantian implementasi di masa depan.
+
+# Modul 4
+
+## 1
+Kelebihan:
+- Saat kita sudah selesai fase bikin unit test, kita tidak perlu mengira-ngira lagi apakah kode kita sudah benar atau belum.
+- Jika saya melakukan implementasi terlebih dahulu tanpa unit test, saya mungkin membuat unit test sesuai dengan flow di logic method, padahal logic di situ bisa salah
+- Saat membuat test, kita bisa langsung memikirkan edge case yang mungkin terjadi.
+
+Kekurangan:
+- Karena method-method masih belum diimplementasikan, kadang ada underline merah-merah yang mengganggu
+
+Kesimpulan saya, dengan alasan yang sudah disebutkan di atas, TDD dapat membantu membuat worklow software engineering menjadi lebih aman.
+
+## 2
+
+F - Fast
+
+- Yes. Sudah menggunakan Mock sehingga tidak ada database atau network request yang lambat
+
+I - Independen
+
+- Yes. Setiap tes berjalan secara independen. Kita tidak perlu memerhatikan urutan setiap tes
+
+R - Repeatable
+
+- Ada bagian test yang menggunakan randomUUID() sehingga masih ada sifat random, tetapi nilai randomUUID() tadi disimpan dalam sebuah variabel lokal yang jika di-test pasti akan bernilai sama
+
+S - Self-Validating
+
+- Yes. Setiap tes menggunakan assertion yang menghasilkan output berhasil atau tidak, bukan semata berhasil dijakankan.
+
+T - Timely
+
+- Yes. Penulisan testing dilakukan sudah dilakukan sebelum penulisan implementasi logika di method.
+
+Kesimpulannya, saya cukup yakin telah menggunakan prinsip FIST di FIRST. saya tidak terlalu yakin apakah sudah menggunakan prinsip repeatable karena ada randomUUID() (Walaupun nilai dari randomUUID() disimpan di variabel sehingga kalau diuji akan menghasilkan output yang sama)
