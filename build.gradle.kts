@@ -9,7 +9,7 @@ plugins {
 val seleniumJavaVersion = "4.14.1"
 val seleniumJupiterVersion = "5.0.1"
 val webdrivermanagerVersion = "5.6.3"
-val junitJupiterVersion = "5.9.1"
+val junitJupiterVersion = "6.0.3"
 
 group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
